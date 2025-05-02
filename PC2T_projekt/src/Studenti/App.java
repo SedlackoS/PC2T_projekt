@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class App {
 	
 	public static Map<Integer, Student> studentiDat = new HashMap<Integer, Student>();
 	
-	public static void main(String[] args) throws IOException {
-		StudentIBE std1 = new StudentIBE(222222,"John", "Doe", 29, 2, 2004, 1.2f);
-		StudentTLI std2 = new StudentTLI(555555, "Sam", "Samsky", 25, 8, 2001, 3.4f);
-		
+	public static void main(String[] args) throws IOException, SQLException {
 		StudentServices.fillMap();
-		
+		/*StudentIBE std1 = new StudentIBE(222222,"John", "Doe", 29, 2, 2004, 1.2f);
+		StudentTLI std2 = new StudentTLI(555555, "Sam", "Samsky", 25, 8, 2001, 3.4f);
+
 		try {
 			studentiDat.put(2222, std1);
 			studentiDat.put(5555, std2);
@@ -34,7 +34,7 @@ public class App {
 		
 		for (int i = 0; i<std1.index.size(); i++) {
 			System.out.println(std1.index.get(i));
-		}
+		}*/
 		
 		
 		LocalDate today = LocalDate.now();
@@ -93,6 +93,9 @@ public class App {
 					StudentServices.readFromFile(studentiDat);
 					break;
 				case(11):
+					StudentServices.writeUsersToDB(studentiDat);
+					break;
+				case(12):
 					DBRead.readStudents(studentiDat);
 					break;
 				default:

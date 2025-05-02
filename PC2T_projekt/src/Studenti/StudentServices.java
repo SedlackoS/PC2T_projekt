@@ -9,9 +9,11 @@ import java.util.Comparator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class StudentServices {
@@ -124,10 +126,23 @@ public class StudentServices {
 					break;
 			}
 		}
-		System.out.println("Zadajte meno:");
-		tempName = sc.nextLine();
-		System.out.println("Zadajte priezvisko:");
-		tempSurname = sc.nextLine();
+		
+		boolean checkNameAndSurname = false;
+		
+		while(checkNameAndSurname == false) {
+			System.out.println("Zadajte meno:");
+			tempName = sc.nextLine();
+			System.out.println("Zadajte priezvisko:");
+			tempSurname = sc.nextLine();
+			
+			if(tempName == "" || tempSurname == "") {
+				System.out.println("Zadajte prosím validne meno a priezvisko!\n");
+				checkNameAndSurname = false;
+			}
+			else {
+				checkNameAndSurname = true;
+			}
+		}
 		
 		boolean checkDate = false;
 		
@@ -263,6 +278,15 @@ public class StudentServices {
 			System.out.println("Priezvisko: " + localMap.get(tempID).surname);
 			System.out.println("Datum narodenia: " + localMap.get(tempID).day + "." + localMap.get(tempID).month + "." + localMap.get(tempID).year);
 			System.out.println("Priemer: " + localMap.get(tempID).priemer);
+			
+			if (localMap.get(tempID) instanceof StudentTLI) {
+				System.out.println("Obor: TLI");
+			}
+			else if(localMap.get(tempID) instanceof StudentIBE) {
+				System.out.println("Obor: IBE");
+			}
+			System.out.println("Znamky:" + localMap.get(tempID).index);
+			
 			System.out.println("Pre pokračovanie stlačte enter!");
 			sc.nextLine();
 			sc.nextLine();
@@ -298,6 +322,8 @@ public class StudentServices {
 	}
 	public static void surnameFilter(Map<Integer, Student> localMap){
 		
+		Scanner sc = new Scanner(System.in);
+		
 		List<StudentTLI> tliList = new ArrayList<>();
 		List<StudentIBE> ibeList = new ArrayList<>();
 		
@@ -325,10 +351,12 @@ public class StudentServices {
 				System.out.println("Priezvisko: " + s.surname);
 				System.out.println("Dátum narodenia: " + s.day + "." + s.month + "." + s.year);
 				System.out.println("Priemer: " + s.priemer);
+				System.out.println("Obor: TLI");
+				System.out.println("Znamky:" + s.index);
 				System.out.println("--------------------");
 				System.out.println("");
+				}
 			}
-		}
 		else {
 			System.out.println("Skupina TLI je prázdna!");
 		}
@@ -349,6 +377,8 @@ public class StudentServices {
 				System.out.println("Priezvisko: " + s.surname);
 				System.out.println("Dátum narodenia: " + s.day + "." + s.month + "." + s.year);
 				System.out.println("Priemer: " + s.priemer);
+				System.out.println("Obor: IBE");
+				System.out.println("Znamky:" + s.index);
 				System.out.println("--------------------");
 				System.out.println("");
 			}
@@ -356,7 +386,9 @@ public class StudentServices {
 		else {
 			System.out.println("Skupina IBE je prázdna!");
 		}
-		
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
 	}
 	
 
@@ -417,9 +449,6 @@ public class StudentServices {
 			}
 			else if(localMap.get(tempID) instanceof StudentTLI) {
 				tempTLICOUNT += 1;
-			}
-			else {
-				System.out.println("Chyba!");
 			}
 		}
 		System.out.println("Pre skupinu Telekomunikace počet študentov je: " + tempTLICOUNT);
@@ -500,7 +529,7 @@ public class StudentServices {
 		FileReader fr; 
 		BufferedReader br;
 		
-		System.out.println("Zadajte nazev souboru:");
+		System.out.println("Zadajte názov súboru:");
 	
 		String tempFileName = sc.nextLine();
 		try {
@@ -511,27 +540,139 @@ public class StudentServices {
 				String ID = br.readLine().substring(4).trim();
 		        String Name = br.readLine().substring(6).trim();
 		        String Surname = br.readLine().substring(11).trim();
-		        String DoB = br.readLine();
+		        String[] DoB = br.readLine().substring(3).trim().replace(".", " ").split(" ");
 		        String Obor = br.readLine().substring(5).trim();
 		        String Priemer = br.readLine().substring(8).trim();
 		        Float floatPriemer = Float.parseFloat(Priemer);
 		        String[] Znamky = br.readLine().substring(7).trim().replace("[", "").replace("]", "").split(", ");
-		        System.out.println(ID);
-		        System.out.println(Znamky[0] + " " + Znamky[1]);
-		        System.out.println(floatPriemer);
+		        Integer[] intZnamky = new Integer[Znamky.length];
+		        boolean Continue = true;
+		        if (!ID.equals("") && !Name.equals("") && !Surname.equals("") && DoB.length == 3 && !Obor.equals("")) {
+		        	if(!localMap.containsKey(Integer.parseInt(ID))) {
+				        if (CheckDoB(Integer.parseInt(DoB[0]), Integer.parseInt(DoB[1]), Integer.parseInt(DoB[2]))) {
+				        	if (!Znamky[0].equals("")) {
+				        		for (int i = 0; i < Znamky.length; i++) {
+				        			Integer tempZnamka = Integer.parseInt(Znamky[i]);
+				        			if(tempZnamka > 0 && tempZnamka <= 5) {
+				        				intZnamky[i] = tempZnamka;
+				        				Continue = true;
+				        			}
+				        			else {
+				        				System.out.println("Skontrolujte prosím známky!");
+				        				Continue = false;
+				        				System.out.println("Pre pokračovanie stlačte enter!");
+				        				sc.nextLine();
+				        				sc.nextLine();
+				        				break;
+				        			}
+				        		}
+				        	}
+				        	if (Continue) {
+				        		if (Obor.equals("TLI")) {
+				        			Studenti.StudentTLI tempStudent = new Studenti.StudentTLI(Integer.parseInt(ID), Name, Surname, Integer.parseInt(DoB[0]), Integer.parseInt(DoB[1]), Integer.parseInt(DoB[2]), floatPriemer);
+				        			localMap.put(Integer.parseInt(ID), tempStudent);
+				        			if (!Znamky[0].equals("")) {
+				        				for (int znamka: intZnamky) {
+				        					tempStudent.index.add(znamka);
+				        				}
+				        			}
+				        			System.out.println("Načítanie bolo úspešné");
+				        			System.out.println("Pre pokračovanie stlačte enter!");
+				        			sc.nextLine();
+				        			sc.nextLine();
+				        		}
+				        		else if (Obor.equals("IBE")) {
+				        			Studenti.StudentIBE tempStudent = new Studenti.StudentIBE(Integer.parseInt(ID), Name, Surname, Integer.parseInt(DoB[0]), Integer.parseInt(DoB[1]), Integer.parseInt(DoB[2]), floatPriemer);
+				        			localMap.put(Integer.parseInt(ID), tempStudent);
+				        			if (!Znamky[0].equals("")) {
+				        				for (int znamka: intZnamky) {
+				        					tempStudent.index.add(znamka);
+				        				}
+				        			}
+				        			System.out.println("Načítanie bolo úspešné");
+				        			System.out.println("Pre pokračovanie stlačte enter!");
+				        			sc.nextLine();
+				        			sc.nextLine();
+				        		}
+				        		else {
+				        			System.out.println("Súbor obsahuje neplatný obor");
+				        			System.out.println("Pre pokračovanie stlačte enter!");
+				        			sc.nextLine();
+				        			sc.nextLine();
+				        		}
+				        	}
+				        }
+				        else {
+				        	System.out.println("Skontrolujte prosím dátum narodenia!");
+				    		System.out.println("Pre pokračovanie stlačte enter!");
+				    		sc.nextLine();
+				    		sc.nextLine();
+				        }
+			     }
+		        	else {
+		        		System.out.println("Toto ID už v databáze existuje!");
+		        		System.out.println("Pre pokračovanie stlačte enter!");
+		        		sc.nextLine();
+		        		sc.nextLine();
+		        		}
+		        	}
+		        else {
+		        	System.out.println("Prosím, skontrolujte súbor!");
+		    		System.out.println("Pre pokračovanie stlačte enter!");
+		    		sc.nextLine();
+		    		sc.nextLine();
+		        }
 		        br.close();
 		        fr.close();
 		        }
-			else{
-				System.out.println("Soubor neexistuje!");
-				}
+			else{	
+				System.out.println("Súbor neexistuje!");
+				System.out.println("Pre pokračovanie stlačte enter!");
+				sc.nextLine();
+				sc.nextLine();
+					}
 			}
-			catch(IOException e) {
-				System.out.println("Nelze cist!");
-				e.printStackTrace();
+		catch(NumberFormatException e) {
+			System.out.println("Skontrolujte prosím číselné hodnoty!");
+			System.out.println("V prípade prázdneho priemeru zadajte hodnotu 0!");
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
+		}
+		catch(FileNotFoundException e){
+			System.out.println("Tento súbor neexistuje!");
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
+		}
+		catch(IOException e) {
+			System.out.println("Nemožno čítať!");
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
 			}
-		
 	}
-	
-	
+	public static void writeUsersToDB(Map<Integer, Student> localMap) throws SQLException {
+		DBWrite.deleteStudents();
+		for (int i : localMap.keySet()) {
+			int tempID = localMap.get(i).ID;
+			String tempName = localMap.get(i).name;
+			String tempSurname = localMap.get(i).surname;
+			int tempDay = localMap.get(i).day;
+			int tempMonth = localMap.get(i).month;
+			int tempYear = localMap.get(i).year;
+			String tempObor = "";
+			if(localMap.get(i) instanceof StudentTLI) {
+				tempObor = "TLI";
+			}
+			else if(localMap.get(i) instanceof StudentIBE) {
+				tempObor = "IBE";
+			}
+			float tempPriemer = localMap.get(i).priemer;
+			String tempZnamky = String.valueOf(localMap.get(i).index);
+			DBWrite.insertNewUser(tempID, tempName, tempSurname, tempDay, tempMonth, tempYear, tempObor, tempPriemer, tempZnamky);
+
+		}
+
+	}
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import Metody_Zaloha.MorseCodeMap;
 
 import java.io.File;
+import java.text.Normalizer;
 
 public class StudentTLI extends Student{
 	
@@ -44,8 +45,8 @@ public class StudentTLI extends Student{
 	
 	public String convertTo() {
 		
-		char nameArr[] = this.name.toLowerCase().toCharArray();
-		char surnameArr[] = this.surname.toLowerCase().toCharArray();
+		char nameArr[] = Normalizer.normalize(this.name.toLowerCase(), Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toCharArray();
+		char surnameArr[] = Normalizer.normalize(this.surname.toLowerCase(), Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toCharArray();
 		
 		String nameToMorse = "";
 		String surnameToMorse = "";

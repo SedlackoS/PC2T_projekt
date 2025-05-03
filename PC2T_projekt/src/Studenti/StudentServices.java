@@ -20,7 +20,54 @@ public class StudentServices {
 
 	public static Map<String, String> morseCodeBook = new HashMap<String, String>();
 	
-	protected static int idCounter = 1;
+	protected static int idCounter = 0;
+	
+	public static void loadCounter(){
+		Scanner sc = new Scanner(System.in);
+		try {
+		String localPath = System.getProperty("user.dir");
+		File localFile = new File(localPath + "\\idCounterFile.txt");
+		FileReader fr = new FileReader(localFile); 
+		BufferedReader br = new BufferedReader(fr);
+		
+		idCounter = Integer.parseInt(br.readLine().trim());
+		br.close();
+		fr.close();
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Skontrolujte prosím obsah súboru idCounterFile!");
+			System.out.println("Bez tohto súboru nemusí program fungovať správne!");
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
+		}
+		catch(IOException e) {
+			System.out.println("Skontrolujte prosím súbor idCounterFile!");
+			System.out.println("Bez tohto súboru nemusí program fungovať správne!");
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
+		}
+	}
+	
+	public static void saveCounter() {
+		Scanner sc = new Scanner(System.in);
+		try {
+		String localPath = System.getProperty("user.dir");
+		File localFile = new File(localPath + "\\idCounterFile.txt");
+		FileWriter fw = new FileWriter(localFile, false); 
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(String.valueOf(idCounter));
+		bw.close();
+		fw.close();
+		}
+		catch(IOException e){
+			System.out.println("Nastala chyba pri zápise idCountera!");
+			System.out.println("Pre pokračovanie stlačte enter!");
+			sc.nextLine();
+			sc.nextLine();
+		}
+	}
 	
 	public static boolean CheckDoB(int day, int month, int year) {
 		if (0 < month & month < 13) {
@@ -76,7 +123,7 @@ public class StudentServices {
 			localMap.get(tempID).priemer = tempSum/(float)localMap.get(tempID).index.size();
 			
 			System.out.println("Známka úspešne zapísaná! \nStudent: " + tempID + " známka: " + tempMark);
-			System.out.println("Pre pokracovanie stlacte enter!");
+			System.out.println("Pre pokračovanie stlačte enter!");
 			sc.nextLine();
 			sc.nextLine();
 		}
@@ -266,13 +313,6 @@ public class StudentServices {
 		
 		if (localMap.get(tempID) != null) {
 			
-			/*float tempSum = 0;
-			for(int i = 0; i<localMap.get(tempID).index.size(); i++) {
-				tempSum += localMap.get(tempID).index.get(i);
-			}
-			
-			float prumer = tempSum/(float)localMap.get(tempID).index.size();*/
-			
 			System.out.println("ID: " + localMap.get(tempID).ID);
 			System.out.println("Meno: " + localMap.get(tempID).name);
 			System.out.println("Priezvisko: " + localMap.get(tempID).surname);
@@ -297,7 +337,6 @@ public class StudentServices {
 			sc.nextLine();
 			sc.nextLine();
 		}
-		
 	}
 	
 	public static void runConvert(Map<Integer, Student> localMap) {
@@ -363,12 +402,7 @@ public class StudentServices {
 			System.out.println("Výpis pre skupinu IBE:");
 		if (!ibeList.isEmpty()) {
 			for (Student s : ibeList) {
-				/*float tempSum = 0;
-					for(int i = 0; i<s.index.size(); i++) {
-						tempSum += s.index.get(i);
-				}
-				
-				float priemer = tempSum/(float)s.index.size();*/
+
 				System.out.println("");
 				System.out.println("Výpis pre priezvisko: " + s.surname);
 				System.out.println("--------------------");

@@ -9,23 +9,6 @@ import java.sql.SQLException;
 
 	  public DBWrite() {}
 
-	  /*public void performInsertQuery(String insertQuery) {
-	    if (insertQuery == null) {
-	      throw new NullPointerException("query must not be null!");
-	    } else if (insertQuery.isEmpty()) {
-	      throw new IllegalArgumentException("query must not be empty!");
-	    }
-	    Connection conn = DBConnect.getDBConnection();
-	    try (PreparedStatement prStmt = conn.prepareStatement(insertQuery);) {
-	      int rowsInserted = prStmt.executeUpdate();
-	      System.out.println("Byl vlo�en u�ivatel s emailem: " + "myname123@stud.feec.vutbr.cz");
-	    } catch (SQLException e) {
-	      System.out.println("U�ivatel s emailem: " + "myname123@stud.feec.vutbr.cz "
-	          + "ji� byl vlo�en nemus�te jej vkl�dat znovu");
-	      // e.printStackTrace();
-	    }
-	  }*/
-
 	  public static void deleteStudents() throws SQLException {
 		    Connection conn = DBConnect.getDBConnection();
 		    
@@ -51,9 +34,8 @@ import java.sql.SQLException;
 	      
 		  		prStmt.executeUpdate();
 
-		  		System.out.println("Novy uzivatel byl vlozen do databaze!");
 		  	} catch (SQLException e) {
-		  		System.out.println("Uzivatel uz byl vlozen nebo jste zadali spatne SQL prikaz INSERT");
+		  		System.out.println("Nastal problém s SQL databázou!");
 		  	}
 	  	}
 

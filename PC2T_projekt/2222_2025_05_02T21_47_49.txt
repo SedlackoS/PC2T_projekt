@@ -1,0 +1,7 @@
+ID: 87
+Meno: Sam
+Priezvisko: Sedl
+DN: 20.12.2004
+Obor: TLI
+Priemer: 0
+Známky: [5]

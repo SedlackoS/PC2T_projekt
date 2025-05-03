@@ -29,15 +29,6 @@ public class DBRead {
 		            String obor = rs.getString("obor");
 		            Float priemer = rs.getFloat("priemer");
 		            String[] znamky = rs.getString("znamky").replace("[", "").replace("]", "").split(", ");
-		            System.out.println(id);
-		            System.out.println(obor);
-		            System.out.println(name);
-		            System.out.println(surname);
-		            System.out.println(day);
-		            System.out.println(month);
-		            System.out.println(year);
-		            System.out.println(priemer);
-		            System.out.println(znamky);
 		            
 		            if (obor.equals("IBE")) {
 			            Studenti.StudentIBE student = new Studenti.StudentIBE(id, name, surname, day, month, year, priemer);
@@ -59,13 +50,9 @@ public class DBRead {
 			            	}
 			            }
 		            }
-
 		        }
-
-		        //System.out.println("Načteno studentů: " + localMap.size());
-
 		    } catch (SQLException e) {
-		        e.printStackTrace();
+		        System.out.println("Skontrolujte prosím SQL databázu!");
 		    }
 		}
 

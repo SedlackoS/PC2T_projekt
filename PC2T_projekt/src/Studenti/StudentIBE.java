@@ -41,9 +41,6 @@ public class StudentIBE extends Student{
 	}
 	
 	
-	
-	
-	
 	@Override
 	public String convertTo() {
 		try {
@@ -57,7 +54,8 @@ public class StudentIBE extends Student{
 		
 		String finalHash = toBigInt.toString(16);
 		
-		return finalHash;}
+		return finalHash;
+		}
 		
 		catch(NoSuchAlgorithmException e) {
 			return "Nastala chyba - neexistujuci algoritmus!";

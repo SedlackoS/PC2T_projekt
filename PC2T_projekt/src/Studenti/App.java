@@ -15,35 +15,17 @@ public class App {
 	
 	public static void main(String[] args) throws IOException, SQLException {
 		StudentServices.fillMap();
-		/*StudentIBE std1 = new StudentIBE(222222,"John", "Doe", 29, 2, 2004, 1.2f);
-		StudentTLI std2 = new StudentTLI(555555, "Sam", "Samsky", 25, 8, 2001, 3.4f);
 
-		try {
-			studentiDat.put(2222, std1);
-			studentiDat.put(5555, std2);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println(std1.convertTo());
-		System.out.println(std2.convertTo());
-		System.out.println(studentiDat.size());
-		System.out.println(studentiDat.get(2222).ID);
-		
-		
-		for (int i = 0; i<std1.index.size(); i++) {
-			System.out.println(std1.index.get(i));
-		}*/
-		
+		DBRead.readStudents(studentiDat);
+		StudentServices.loadCounter();
 		
 		LocalDate today = LocalDate.now();
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Vitajte v univerzitnom informacnom systeme!");
+		System.out.println("Vitajte v univerzitnom informačnom systéme!");
 		System.out.println("Dnes je " + today);
-		System.out.println("Pre pokračovanie stlacte Enter");
+		System.out.println("Pre pokračovanie stlačte Enter");
 		sc.nextLine();
 		
 		String localPath = System.getProperty("user.dir");
@@ -61,6 +43,7 @@ public class App {
 			System.out.println("8. Počet študentov u jednotlivých skupín");
 			System.out.println("9. Zápis do súboru");
 			System.out.println("10. Načítanie zo súboru");
+			System.out.println("11. Uložiť do databáze a Ukončiť program!");
 			switch(sc.nextInt()) {
 				case(1):
 					StudentServices.AddStudentToDat(studentiDat);
@@ -94,9 +77,8 @@ public class App {
 					break;
 				case(11):
 					StudentServices.writeUsersToDB(studentiDat);
-					break;
-				case(12):
-					DBRead.readStudents(studentiDat);
+					StudentServices.saveCounter();
+					System.exit(0);
 					break;
 				default:
 					System.out.println("Zadajte prosím platnú voľbu!");

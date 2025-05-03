@@ -1,7 +1,0 @@
-ID: 555555
-Meno: Sam
-Priezvisko: Samsky
-DN: 25.8.2001
-Obor: TLI
-Priemer: 3.4
-Známky: []

@@ -1,6 +1,0 @@
-ID: 222222
-Meno: John
-Priezvisko: Doe
-DN: 29.2.2004
-Obor: IBEPriemer: 1.2
-Známky: []

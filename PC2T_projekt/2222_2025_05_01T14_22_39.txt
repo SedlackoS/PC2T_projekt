@@ -1,7 +1,0 @@
-ID: 2222
-Meno: Joe
-Priezvisko: Doesky
-DN: 29.04.2004
-Obor: IBECD
-Priemer: 3.5
-Známky: []

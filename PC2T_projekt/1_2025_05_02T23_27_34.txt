@@ -1,7 +1,0 @@
-ID: 6
-Meno: Marek
-Priezvisko: Malah 
-DN: 19.8.2005
-Obor: TLI
-Priemer: 1.0
-Známky: [1, 1, 1]

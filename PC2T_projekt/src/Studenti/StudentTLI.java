@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import Metody.MorseCodeMap;
+import Metody_Zaloha.MorseCodeMap;
 
 import java.io.File;
 
@@ -50,16 +50,14 @@ public class StudentTLI extends Student{
 		String nameToMorse = "";
 		String surnameToMorse = "";
 		
-		MorseCodeMap.fillMap();
-		
 		
 		for(char i : nameArr) {
 			String localChar = Character.toString(i);
-			nameToMorse += Metody.MorseCodeMap.morseCodeBook.get(localChar) + " ";
+			nameToMorse += StudentServices.morseCodeBook.get(localChar) + " ";
 		}
 		for(char j : surnameArr) {
 			String localChar = Character.toString(j);
-			surnameToMorse += Metody.MorseCodeMap.morseCodeBook.get(localChar) + " ";
+			surnameToMorse += StudentServices.morseCodeBook.get(localChar) + " ";
 		}
 		
 		return nameToMorse + " " + surnameToMorse;

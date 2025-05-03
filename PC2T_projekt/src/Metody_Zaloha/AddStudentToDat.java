@@ -1,4 +1,4 @@
-package Metody;
+package Metody_Zaloha;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class AddStudentToDat {
 			DoB[1] = sc.nextInt();
 			System.out.println("Zadajte rok narodenia:");
 			DoB[2] = sc.nextInt();
-			if (Metody.CheckDoB.run(DoB[0], DoB[1], DoB[2]) == false) {
+			if (Metody_Zaloha.CheckDoB.run(DoB[0], DoB[1], DoB[2]) == false) {
 				System.out.print("Vas vstup je neplatny! Zadajte ho znova!\n");
 			}
 			else

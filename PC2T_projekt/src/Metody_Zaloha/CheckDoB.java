@@ -1,4 +1,4 @@
-package Metody;
+package Metody_Zaloha;
 
 public class CheckDoB {
 

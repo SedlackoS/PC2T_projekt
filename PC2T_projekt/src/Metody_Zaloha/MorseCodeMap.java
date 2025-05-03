@@ -1,4 +1,4 @@
-package Metody;
+package Metody_Zaloha;
 
 import java.util.HashMap;
 import java.util.Map;
